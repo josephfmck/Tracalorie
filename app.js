@@ -21,8 +21,11 @@ const ItemCtrl = (function() { //IIFE
         totalCalories: 0
     }
 
-    //PUBLIC return
+    //PUBLIC methods return
     return {
+        getItems: function() {
+            return data.items;
+        },
         logData: function() { //ItemCtrl.logData()
             return data;
         }
@@ -33,7 +36,30 @@ const ItemCtrl = (function() { //IIFE
 
 //  UI Controller
 const UICtrl = (function() { 
-    
+
+
+    //  Public Methods
+    return {
+        //pass in the getItems() items/data
+        populateItemList: function(items) {
+            let html = '';
+
+            items.forEach((item) => {
+                //  Append lis to html
+                html += `
+                <li class="collection-item" id="item-${item.id}">
+                    <strong>${item.name}:</strong> <em>${item.calories} Calories</em>
+                    <a href="#" class="secondary-content">
+                        <i class="edit-item fa fa-pencil"></i>
+                    </a>
+                </li>
+                `;
+            });
+
+            //  Insert list items
+            document.querySelector('#item-list').innerHTML = html;
+        }
+    }
 })();
 
 
@@ -42,10 +68,18 @@ const UICtrl = (function() {
 const AppCtrl = (function(ItemCtrl, UICtrl) { 
     
 
-    //  Public
+    //  Public methods
     return {
         init: function() {
-            console.log('Initializing App...')
+            console.log('Initializing App...');
+
+            //  Fetch items from data structure
+            //set return result of data to items
+            const items = ItemCtrl.getItems();
+            console.log(items);
+
+            //  Populate list with items
+            UICtrl.populateItemList(items);
         }
     }
 
