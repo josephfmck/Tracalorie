@@ -37,6 +37,10 @@ const ItemCtrl = (function() { //IIFE
 //  UI Controller
 const UICtrl = (function() { 
 
+    //  UISelectors to replace hard-coded html selectors
+    const UISelectors = {
+        itemList: '#item-list'
+    }
 
     //  Public Methods
     return {
@@ -57,7 +61,7 @@ const UICtrl = (function() {
             });
 
             //  Insert list items
-            document.querySelector('#item-list').innerHTML = html;
+            document.querySelector(UISelectors.itemList).innerHTML = html;
         }
     }
 })();
