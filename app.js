@@ -13,9 +13,9 @@ const ItemCtrl = (function() { //IIFE
     //  Data Structure / State
     const data = {
         items: [
-            {id: 0, name: 'Steak Dinner', calories: 1200},
-            {id: 1, name: 'Cookie', calories: 400},
-            {id: 2, name: 'Eggs', calories: 300}
+            // {id: 0, name: 'Steak Dinner', calories: 1200},
+            // {id: 1, name: 'Cookie', calories: 400},
+            // {id: 2, name: 'Eggs', calories: 300}
         ],
         currentItem: null,
         totalCalories: 0
@@ -42,7 +42,7 @@ const ItemCtrl = (function() { //IIFE
             //  Parse Calories to number
             let calories = parseInt(caloriesInput);
 
-            //  Create new Item
+            //  Create new item using Item constructor
             let newItem = new Item(ID, nameInput, calories);
 
             //  Add to items array
@@ -101,6 +101,9 @@ const UICtrl = (function() {
             }
         },
         addListItem: function(item) {
+            //  Show the List (revert hideList method)
+            document.querySelector(UISelectors.itemList).style.display = 'block';
+
             //  Create li element
             const li = document.createElement('li');
             //  Add class
@@ -122,6 +125,9 @@ const UICtrl = (function() {
             document.querySelector(UISelectors.itemNameInput).value = '';
             document.querySelector(UISelectors.itemCalorieInput).value = '';
             
+        },
+        hideList: function() {
+            document.querySelector(UISelectors.itemList).style.display = 'none';
         }
     }
 })();
@@ -171,8 +177,13 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
             const items = ItemCtrl.getItems();
             console.log(items);
 
-            //  Populate list with items
-            UICtrl.populateItemList(items);
+            //  Check if any items
+            if(items.length === 0) {
+                UICtrl.hideList();
+            } else {   
+                //  Populate list with items
+                UICtrl.populateItemList(items);
+            }
 
             //  Load event listeners
             loadEventListeners();
