@@ -64,6 +64,23 @@ const ItemCtrl = (function() { //IIFE
 
             return data.totalCalories;
         },
+        getItemById: function(id) {
+            let found = null;
+            //  Loop through items
+            data.items.forEach((item) => {
+                if(item.id === id) {
+                    found = item;
+                }
+            });
+            return found;
+        },
+        setCurrentItem: function(item) {
+            //set data structure prop to item from editbtn
+            data.currentItem = item;
+        },
+        getCurrentItem: function() {
+            return data.currentItem;
+        },
         logData: function() { //ItemCtrl.logData()
             return data;
         }
@@ -158,6 +175,11 @@ const UICtrl = (function() {
             document.querySelector(UISelectors.backBtn).style.display = 'none';
             //  Show addBtn
             document.querySelector(UISelectors.addBtn).style.display = 'inline';
+        },
+        addItemToForm: function() {
+            //Adds the current item selected through editbtn into the forms inputs
+            document.querySelector(UISelectors.itemNameInput).value = ItemCtrl.getCurrentItem().name;
+            document.querySelector(UISelectors.itemCalorieInput).value = ItemCtrl.getCurrentItem().calories;
         }
     }
 })();
@@ -211,7 +233,28 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
     const itemUpdateSubmit = function(e) {
         //have to use event delegation, cant add event listener to dynamic edit btn so grab the parent element list
         if(e.target.classList.contains('edit-item')) {
-            console.log('edit item');
+            //  Get list item id ("item-0" etc.)
+            //parentNode = atag, parentNode = li, id of li
+            const listId = e.target.parentNode.parentNode.id;
+            console.log(listId);
+
+            //  Break into an array 
+            //split by the -
+            const listIdArr = listId.split('-');
+            console.log(listIdArr); //['item', '0']
+
+            //  Get the actual id
+            const id = parseInt(listIdArr[1]);
+
+            //  Get item with id
+            const itemToEdit = ItemCtrl.getItemById(id);
+            console.log(itemToEdit); //item obj
+
+            //  Set current item 
+            ItemCtrl.setCurrentItem(itemToEdit);
+
+            //  Add item to form
+            UICtrl.addItemToForm();
         }
 
 
@@ -230,7 +273,6 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
             //  Fetch items from data structure
             //set returned data to items
             const items = ItemCtrl.getItems();
-            console.log(items);
 
             //  Check if any items
             if(items.length === 0) {
