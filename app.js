@@ -117,6 +117,11 @@ const UICtrl = (function() {
             //Insert item
                 //beforeend means last item of itemList
             document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
+        },
+        clearFormInput: function() {
+            document.querySelector(UISelectors.itemNameInput).value = '';
+            document.querySelector(UISelectors.itemCalorieInput).value = '';
+            
         }
     }
 })();
@@ -148,6 +153,9 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
             //  Add item to UI list
             UICtrl.addListItem(newItem);
+
+            //  Clear form input
+            UICtrl.clearFormInput();
         }
 
         e.preventDefault();
