@@ -41,7 +41,8 @@ const UICtrl = (function() {
     const UISelectors = {
         itemList: '#item-list',
         addBtn: '.add-btn',
-        itemNameInput: '#item-name'
+        itemNameInput: '#item-name',
+        itemCalorieInput: '#item-calories'
     }
 
     //  Public Methods
@@ -70,8 +71,8 @@ const UICtrl = (function() {
         },
         getItemInput: function() {
             return {
-                name: UISelectors.itemNameInput,
-                calories: ''
+                name: document.querySelector(UISelectors.itemNameInput).value,
+                calories: document.querySelector(UISelectors.itemNameInput).value
             }
         }
     }
@@ -96,6 +97,8 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
     const itemAddSubmit = function(e) {
         //  Get form input from UICtrl
         const input = UICtrl.getItemInput();
+
+        console.log(input);
 
         e.preventDefault();
     }
