@@ -40,7 +40,8 @@ const UICtrl = (function() {
     //  UISelectors to replace hard-coded html selectors
     const UISelectors = {
         itemList: '#item-list',
-        addBtn: '.add-btn'
+        addBtn: '.add-btn',
+        itemNameInput: '#item-name'
     }
 
     //  Public Methods
@@ -66,6 +67,12 @@ const UICtrl = (function() {
         },
         getSelectors: function() {
             return UISelectors; //return obj var
+        },
+        getItemInput: function() {
+            return {
+                name: UISelectors.itemNameInput,
+                calories: ''
+            }
         }
     }
 })();
@@ -87,7 +94,8 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
     //  Add item submit
     //function expression sets to var
     const itemAddSubmit = function(e) {
-        console.log('Add');
+        //  Get form input from UICtrl
+        const input = UICtrl.getItemInput();
 
         e.preventDefault();
     }
