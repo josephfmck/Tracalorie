@@ -207,10 +207,22 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         //  Add item event
         document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
 
+        //  Disable submit on enter, to prevent submission with enter when in edit state
+        document.addEventListener('keypress', function(e) {
+            console.log(e);
+            if(e.keyboardEvent.code === 13 || e.keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
 
         //  Edit icon click event
         //have to use event delegation, cant add event listener to dynamic edit btn so grab the parent element list
-        document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
+        document.querySelector(UISelectors.itemList).addEventListener('click', itemEditClick);
+
+        //  Update item event
+        document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
     }
 
     //  Add item submit
@@ -239,8 +251,8 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         e.preventDefault();
     }
 
-    //  update item submit
-    const itemUpdateSubmit = function(e) {
+    //  Click item editBtn 
+    const itemEditClick = function(e) {
         //have to use event delegation, cant add event listener to dynamic edit btn so grab the parent element list
         if(e.target.classList.contains('edit-item')) {
             //  Get list item id ("item-0" etc.)
@@ -267,10 +279,15 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
             UICtrl.addItemToForm();
         }
 
-
         e.preventDefault()
     }
 
+    //  Update Item Submit
+    const itemUpdateSubmit = function(e) {
+        console.log('update');
+
+        e.preventDefault();       
+    }
 
     //  Public methods
     return {
