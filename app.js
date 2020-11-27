@@ -180,6 +180,16 @@ const UICtrl = (function() {
             //Adds the current item selected through editbtn into the forms inputs
             document.querySelector(UISelectors.itemNameInput).value = ItemCtrl.getCurrentItem().name;
             document.querySelector(UISelectors.itemCalorieInput).value = ItemCtrl.getCurrentItem().calories;
+
+            UICtrl.showEditState();
+        },
+        showEditState: function() {
+            //  Show backBtn, updateBtn, and deleteBtn
+            document.querySelector(UISelectors.updateBtn).style.display = 'inline';
+            document.querySelector(UISelectors.deleteBtn).style.display = 'inline';
+            document.querySelector(UISelectors.backBtn).style.display = 'inline';
+            //  Hide addBtn
+            document.querySelector(UISelectors.addBtn).style.display = 'none';
         }
     }
 })();
