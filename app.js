@@ -26,6 +26,31 @@ const ItemCtrl = (function() { //IIFE
         getItems: function() {
             return data.items;
         },
+        addItem: function(nameInput, caloriesInput) {
+            let ID;
+
+            //generate/autoincrement id
+            //  Create ID
+            if(data.items.length > 0) {
+                //grab last item's + 1
+                ID = data.items[data.items.length - 1].id + 1;
+            } else {
+                //create first item id
+                ID = 0;
+            }
+
+            //  Parse Calories to number
+            let calories = parseInt(caloriesInput);
+
+            //  Create new Item
+            let newItem = new Item(ID, nameInput, calories);
+
+            //  Add to items array
+            data.items.push(newItem);
+            
+
+            return newItem; // going to use
+        },
         logData: function() { //ItemCtrl.logData()
             return data;
         }
@@ -72,7 +97,7 @@ const UICtrl = (function() {
         getItemInput: function() {
             return {
                 name: document.querySelector(UISelectors.itemNameInput).value,
-                calories: document.querySelector(UISelectors.itemNameInput).value
+                calories: document.querySelector(UISelectors.itemCalorieInput).value
             }
         }
     }
@@ -98,7 +123,11 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         //  Get form input from UICtrl
         const input = UICtrl.getItemInput();
 
-        console.log(input);
+        //  Check for name and calorie input
+        if(input.name !== '' && input.calories !== '') {
+            //  Add item
+            const newItem = ItemCtrl.addItem(input.name, input.calories);
+        }
 
         e.preventDefault();
     }
