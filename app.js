@@ -39,7 +39,8 @@ const UICtrl = (function() {
 
     //  UISelectors to replace hard-coded html selectors
     const UISelectors = {
-        itemList: '#item-list'
+        itemList: '#item-list',
+        addBtn: '.add-btn'
     }
 
     //  Public Methods
@@ -62,6 +63,9 @@ const UICtrl = (function() {
 
             //  Insert list items
             document.querySelector(UISelectors.itemList).innerHTML = html;
+        },
+        getSelectors: function() {
+            return UISelectors; //return obj var
         }
     }
 })();
@@ -71,6 +75,22 @@ const UICtrl = (function() {
 //  App Controller
 const AppCtrl = (function(ItemCtrl, UICtrl) { 
     
+    //  Load Intial event isteners function 
+    const loadEventListeners = function() {
+        //  Get UI Selectors from UICtrl
+        const UISelectors = UICtrl.getSelectors(); 
+
+        //  Add item event
+        document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
+    }
+
+    //  Add item submit
+    //function expression sets to var
+    const itemAddSubmit = function(e) {
+        console.log('Add');
+
+        e.preventDefault();
+    }
 
     //  Public methods
     return {
@@ -78,12 +98,15 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
             console.log('Initializing App...');
 
             //  Fetch items from data structure
-            //set return result of data to items
+            //set returned data to items
             const items = ItemCtrl.getItems();
             console.log(items);
 
             //  Populate list with items
             UICtrl.populateItemList(items);
+
+            //  Load event listeners
+            loadEventListeners();
         }
     }
 
