@@ -174,6 +174,11 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
         //  Add item event
         document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
+
+
+        //  Edit icon click event
+        //have to use event delegation, cant add event listener to dynamic edit btn so grab the parent element list
+        document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
     }
 
     //  Add item submit
@@ -201,6 +206,18 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
         e.preventDefault();
     }
+
+    //  update item submit
+    const itemUpdateSubmit = function(e) {
+        //have to use event delegation, cant add event listener to dynamic edit btn so grab the parent element list
+        if(e.target.classList.contains('edit-item')) {
+            console.log('edit item');
+        }
+
+
+        e.preventDefault()
+    }
+
 
     //  Public methods
     return {
