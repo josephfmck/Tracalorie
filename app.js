@@ -246,6 +246,14 @@ const UICtrl = (function() {
                     `;
                 }
             });
+        },
+        deleteListItem: function(id) {
+            //set id from currentItem id
+            const itemId = `#item-${id}`;
+            //get item element with id
+            const item = document.querySelector(itemId);
+
+            item.remove();
         }
     }
 })();
@@ -373,6 +381,8 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         //  Delete from data structure
         ItemCtrl.deleteItem(currentItem.id);
 
+        //  Delete from UI
+        UICtrl.deleteListItem(currentItem.id);
 
         e.preventDefault();
     }
