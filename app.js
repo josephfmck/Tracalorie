@@ -99,6 +99,22 @@ const ItemCtrl = (function() { //IIFE
 
             return found;
         },
+        deleteItem: function(id) {
+            //  Get ids
+            //map like foreach but it returns
+            ids = data.items.map(function(item) {
+                return item.id;
+            });  //returns [0,1...]
+
+            //  Get index
+            //returns index position of where it found passed in id in ids
+            const index = ids.indexOf(id);
+
+            //  Remove item
+            //remove 1 at index position
+            data.items.splice(index, 1);
+
+        },
         logData: function() { //ItemCtrl.logData()
             return data;
         }
@@ -265,6 +281,9 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
         //  Back button event
         document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState());
+
+        //  Delete button event
+        document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
     }
 
     //  Add item submit
@@ -344,6 +363,18 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         UICtrl.clearEditState();
 
         e.preventDefault();       
+    }
+
+    //Delete button event
+    const itemDeleteSubmit = function(e) {
+        //  Get current item 
+        const currentItem = ItemCtrl.getCurrentItem();
+
+        //  Delete from data structure
+        ItemCtrl.deleteItem(currentItem.id);
+
+
+        e.preventDefault();
     }
 
     //  Public methods
