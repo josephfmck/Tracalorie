@@ -81,6 +81,24 @@ const ItemCtrl = (function() { //IIFE
         getCurrentItem: function() {
             return data.currentItem;
         },
+        updateItem: function(name, calories) {
+            //  Calories to number
+            calories = parseInt(calories);
+
+            let found = null;
+
+            //  loop items
+            data.items.forEach((item) => {
+                //  Check id = to item id we clicked editBtn on
+                if(item.id === data.currentItem.id) {
+                    item.name = name;
+                    item.calories = calories;
+                    found = item;
+                }
+            });
+
+            return found;
+        },
         logData: function() { //ItemCtrl.logData()
             return data;
         }
@@ -209,7 +227,6 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
         //  Disable submit on enter, to prevent submission with enter when in edit state
         document.addEventListener('keypress', function(e) {
-            console.log(e);
             if(e.keyboardEvent.code === 13 || e.keyCode === 13) {
                 e.preventDefault();
                 return false;
@@ -284,7 +301,11 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
     //  Update Item Submit
     const itemUpdateSubmit = function(e) {
-        console.log('update');
+        //  Get item input
+        const input = UICtrl.getItemInput();
+
+        //  Update item
+        const updatedItem = ItemCtrl.updateItem(input.name, input.calories);
 
         e.preventDefault();       
     }
