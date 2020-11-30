@@ -119,7 +119,8 @@ const UICtrl = (function() {
         totalCalories: '.total-calories',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
-        backBtn: '.back-btn'
+        backBtn: '.back-btn',
+        listItems: '#item-list li'
     }
 
     //  Public Methods
@@ -208,6 +209,27 @@ const UICtrl = (function() {
             document.querySelector(UISelectors.backBtn).style.display = 'inline';
             //  Hide addBtn
             document.querySelector(UISelectors.addBtn).style.display = 'none';
+        },
+        updateListItem: function(updatedItem) {
+            let listItems = document.querySelectorAll(UISelectors.listItems);
+
+            //  Convert Node list to arr
+            listItems = Array.from(listItems);
+
+            listItems.forEach((listItem) => {
+                //  Get id for each item
+                const itemId = listItem.getAttribute('id');
+
+                //  Check itemId = id of item passed in
+                if(itemId === `item-${updatedItem.id}`) {
+                    document.querySelector(`#${itemId}`).innerHTML = `
+                    <strong>${updatedItem.name}:</strong> <em>${updatedItem.calories} Calories</em>
+                    <a href="#" class="secondary-content">
+                        <i class="edit-item fa fa-pencil"></i>
+                    </a>
+                    `;
+                }
+            });
         }
     }
 })();
@@ -227,7 +249,7 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
         //  Disable submit on enter, to prevent submission with enter when in edit state
         document.addEventListener('keypress', function(e) {
-            if(e.keyboardEvent.code === 13 || e.keyCode === 13) {
+            if(e.charCode === 13 || e.keyCode === 13) {
                 e.preventDefault();
                 return false;
             }
@@ -304,8 +326,11 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         //  Get item input
         const input = UICtrl.getItemInput();
 
-        //  Update item
+        //  Update item in data Structure
         const updatedItem = ItemCtrl.updateItem(input.name, input.calories);
+
+        //  Update UI
+        UICtrl.updateListItem(updatedItem);
 
         e.preventDefault();       
     }
