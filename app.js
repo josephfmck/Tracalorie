@@ -115,6 +115,9 @@ const ItemCtrl = (function() { //IIFE
             data.items.splice(index, 1);
 
         },
+        clearAllItems: function() {
+            data.items = [];
+        },
         logData: function() { //ItemCtrl.logData()
             return data;
         }
@@ -136,7 +139,8 @@ const UICtrl = (function() {
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
         backBtn: '.back-btn',
-        listItems: '#item-list li'
+        listItems: '#item-list li',
+        clearBtn: '.clear-btn'
     }
 
     //  Public Methods
@@ -292,6 +296,9 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
 
         //  Delete button event
         document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
+
+        //  Clear items button event
+        document.querySelector(UISelectors.clearBtn).addEventListener('click', clearAllItemsClick);
     }
 
     //  Add item submit
@@ -391,6 +398,14 @@ const AppCtrl = (function(ItemCtrl, UICtrl) {
         UICtrl.showTotalCalories(totalCalories);
 
         UICtrl.clearEditState();
+
+        e.preventDefault();
+    }
+
+    //  Clear items event
+    const clearAllItemsClick = function(e) {
+        //  Delete all items from data structure
+        ItemCtrl.clearAllItems();
 
         e.preventDefault();
     }
