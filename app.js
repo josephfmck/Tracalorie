@@ -4,7 +4,7 @@ const StorageCtrl = (function() {
     //  Public methods
     return {
         storeItem: function(newItem) {
-            let items = [];
+            let items;
 
             //  Check if any items in LS
             //'items' is custom name of storage 
@@ -17,7 +17,7 @@ const StorageCtrl = (function() {
                 //LS sets/stores strings only so stringify
                 localStorage.setItem('items', JSON.stringify(items));
             } else {
-                //  Get items from LS
+                //  Get items already in LS
                 //LS gets strings only so parse to obj
                 items = JSON.parse(localStorage.getItem('items'));
 
@@ -31,6 +31,19 @@ const StorageCtrl = (function() {
 
             localStorage.getItem('items'); 
 
+        },
+        getItemsFromStorage: function() {
+            let items;
+
+            if(localStorage.getItem('items') === null) {
+                //if nothing in LS, items = nothing
+                items = [];
+            } else {
+                //grab from LS
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+
+            return items;
         }
     }
 })();
@@ -47,11 +60,12 @@ const ItemCtrl = (function() { //IIFE
 
     //  Data Structure / State
     const data = {
-        items: [
-            // {id: 0, name: 'Steak Dinner', calories: 1200},
-            // {id: 1, name: 'Cookie', calories: 400},
-            // {id: 2, name: 'Eggs', calories: 300}
-        ],
+        // items: [
+        //     // {id: 0, name: 'Steak Dinner', calories: 1200},
+        //     // {id: 1, name: 'Cookie', calories: 400},
+        //     // {id: 2, name: 'Eggs', calories: 300}
+        // ],
+        items: StorageCtrl.getItemsFromStorage(),
         currentItem: null,
         totalCalories: 0
     }
