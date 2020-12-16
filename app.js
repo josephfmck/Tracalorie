@@ -60,6 +60,25 @@ const StorageCtrl = (function() {
             });
             //set in LS
             localStorage.setItem('items', JSON.stringify(items));
+        },
+        deleteItemFromStorage: function(currentItemID) {
+            //  Grab from LS
+            let items = JSON.parse(localStorage.getItem('items'));
+
+            //  Loop
+            items.forEach((item, index) => {
+                //  Check ID's for same ID
+                if(currentItemID === item.id) {
+                    //  Remove/splice item
+                    items.splice(index, 1);
+                }
+            });
+            //  Set in LS
+            localStorage.setItem('items', JSON.stringify(items));
+        },
+        clearItemsFromStorage: function() {
+            //clears all items
+            localStorage.removeItem('items');
         }
     }
 })();
@@ -478,6 +497,9 @@ const AppCtrl = (function(ItemCtrl, StorageCtrl, UICtrl) {
         //  Add total calories to UI
         UICtrl.showTotalCalories(totalCalories);
 
+        //  Delete item from LS
+        StorageCtrl.deleteItemFromStorage(currentItem.id);
+
         UICtrl.clearEditState();
 
         e.preventDefault();
@@ -496,6 +518,9 @@ const AppCtrl = (function(ItemCtrl, StorageCtrl, UICtrl) {
 
         //  Remove from UI
         UICtrl.removeItems();
+
+        //  Clear from localStorage
+        StorageCtrl.clearItemsFromStorage();
 
         //  Hide UL
         UICtrl.hideList();
